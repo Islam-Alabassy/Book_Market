@@ -1,20 +1,21 @@
 ﻿using DataAccess;
 using Models;
 using Microsoft.AspNetCore.Mvc;
+using DataAccess.Repository.IRepository;
 
 namespace Book_Market.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly MainDbContext db;
+        private readonly ICategoryRepository categoryRepo;
 
-        public CategoryController(MainDbContext db)
+        public CategoryController(ICategoryRepository categoryRepo)
         {
-            this.db = db;
+            this.categoryRepo = categoryRepo;
         }
         public IActionResult Index()
         {
-            List<Category> categories = db.Categories.ToList();
+            List<Category> categories = categoryRepo.GetAll().ToList();
             return View(categories);
         }
         public IActionResult Create()
@@ -30,8 +31,8 @@ namespace Book_Market.Controllers
             //}
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
-                db.SaveChanges();
+                categoryRepo.Add(category);
+                categoryRepo.Save();
                 TempData["success"] = "DATA CREATED SUCCESSFULLY";
                 return RedirectToAction("Index");
             }
@@ -43,7 +44,7 @@ namespace Book_Market.Controllers
             {
                 return NotFound();
             }
-            Category? category = db.Categories.Find(id);
+            Category? category = categoryRepo.Get(u=>u.CategoryId==id);
             if (category == null)
             {
                 return NotFound();
@@ -56,8 +57,8 @@ namespace Book_Market.Controllers
             
             if (ModelState.IsValid)
             {
-                db.Categories.Update(category);
-                db.SaveChanges();
+                categoryRepo.Update(category);
+                categoryRepo.Save();
                 TempData["success"] = "DATA UPDATED SUCCESSFULLY";
                 return RedirectToAction("Index");
             }
@@ -69,7 +70,7 @@ namespace Book_Market.Controllers
             {
                 return NotFound();
             }
-            Category? category = db.Categories.Find(id);
+            Category? category = categoryRepo.Get(u => u.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -83,13 +84,13 @@ namespace Book_Market.Controllers
             {
                 return NotFound();
             }
-            Category? category = db.Categories.Find(id);
+            Category? category = categoryRepo.Get(u => u.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
             }
-            db.Categories.Remove(category);
-            db.SaveChanges();
+            categoryRepo.Remove(category);
+            categoryRepo.Save();
             TempData["success"] = "DATA DELETED SUCCESSFULLY";
             return RedirectToAction("Index");
         }
