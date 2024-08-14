@@ -1,0 +1,57 @@
+﻿@model List<Category>
+@{
+    ViewBag.Title = "Categories";
+}
+
+<div class="card shadow border-0 mt-lg-5">
+    <div class="card-header ml-0 py-1 bg-primary">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Category List</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <div class="col-12 text-end">
+                <a asp-action="Create" asp-controller="Category" class="btn btn-primary">
+                    <i class="bi bi-plus"></i> Create New Category
+                </a>
+            </div>
+        </div>
+        <table class="table table-hover table-striped">
+            <thead class="table-primary">
+                <tr>
+                    <th style="width: 30%;">Category Name</th>
+                    <th style="width: 30%;">Display Order</th>
+                    <th style ="width: 40%;"></th>
+                </tr>
+            </thead>
+            <tbody class="table">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td style="width: 30%;">@item.Name</td>
+                        <td style="width: 30%;">@item.DisplayOrder</td>
+                        <td style="width: 40%;">
+                            <div class="btn-group" role="group">
+                                <a asp-action="Edit" asp-controller="Category" asp-route-id="@item.CategoryId" class="btn btn-primary" style="width:150px">
+                                    <i class="bi bi-pen"></i> Edit
+                                </a>
+                            </div>
+                            <div class="btn-group" role="group">
+                                <a asp-action="Delete" asp-controller="Category" asp-route-id="@item.CategoryId" class="btn btn-danger col-12" style="width:150px">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+
+
+<div class="container">

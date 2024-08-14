@@ -3,7 +3,7 @@ using Models;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess.Repository.IRepository;
 
-namespace Book_Market.Controllers
+namespace Book_Market.Areas.Admin.Controllers
 {
     public class CategoryController : Controller
     {
@@ -40,11 +40,11 @@ namespace Book_Market.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            if(id== null||id==0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
-            Category? category = categoryRepo.Get(u=>u.CategoryId==id);
+            Category? category = categoryRepo.Get(u => u.CategoryId == id);
             if (category == null)
             {
                 return NotFound();
@@ -54,7 +54,7 @@ namespace Book_Market.Controllers
         [HttpPost]
         public IActionResult Edit(Category category)
         {
-            
+
             if (ModelState.IsValid)
             {
                 categoryRepo.Update(category);
@@ -77,7 +77,7 @@ namespace Book_Market.Controllers
             }
             return View(category);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
             if (id == null || id == 0)
