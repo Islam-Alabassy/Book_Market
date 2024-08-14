@@ -13,6 +13,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString(name: "DefaultCon
 
 //Add Custom service to the services container
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
