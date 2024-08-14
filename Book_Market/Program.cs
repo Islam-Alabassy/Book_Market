@@ -3,6 +3,7 @@ using DataAccess.Repository.IRepository;
 using DataAccess.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MainDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString(name: "DefaultConnection")));
-
+//builder.Services.Configure<IISServerOptions>(options=>
+//     options.MaxRequestBodySize = 10485760); // 10 MB)
 //Add Custom service to the services container
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
