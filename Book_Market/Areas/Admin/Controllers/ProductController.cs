@@ -5,6 +5,7 @@ using DataAccess.Repository.IRepository;
 using Models.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
+using System.Globalization;
 
 namespace Book_Market.Areas.Admin.Controllers
 {
@@ -139,5 +140,42 @@ namespace Book_Market.Areas.Admin.Controllers
             TempData["success"] = "DATA DELETED SUCCESSFULLY";
             return RedirectToAction("Index");
         }
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            List<Product> products = productRepo.GetAll(includeProperties: "Category").ToList();
+            return Json(new {data =  products});
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteApi(int id)
+        {
+            if (id == null || id == 0)
+            {
+                return NotFound();
+            }
+            Product? Product = productRepo.Get(u => u.ProductId == id);
+            
+            if (Product == null)
+            {
+                return NotFound();
+            }
+            if (Product.ImageUrl != null)
+            {
+                var oldImagePath = Path.Combine(webHostEnvironment.ContentRootPath,
+                Product.ImageUrl.TrimStart('\\'));
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
+
+            productRepo.Remove(Product);
+            productRepo.Save();
+            return Json(new { success = true,message="Delete successsful" });
+        }
+        #endregion
     }
 }

@@ -27,10 +27,13 @@ namespace DataAccess.Repository
         {
             IQueryable<T> query = dbSet;
             query = query.Where(filter);
-            foreach (var property in includeProperties
-                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            if (includeProperties != null)
             {
-                query = query.Include(property);
+                foreach (var property in includeProperties
+                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
             }
             return query.FirstOrDefault();
         }

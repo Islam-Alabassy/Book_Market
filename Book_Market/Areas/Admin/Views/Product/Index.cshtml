@@ -19,49 +19,25 @@
                 </a>
             </div>
         </div>
-        <table class="table table-hover table-striped">
+        <table id="myTable" class="table table-hover table-striped" width="100%">
             <thead class="table-primary">
                 <tr>
                     <th>Title</th>
                     <th>ISBN</th>
-                    <th>Price</th>
                     <th>Author</th>
+                    <th>Price</th>
                     <th>Category</th>
 
                     <th></th>
                 </tr>
             </thead>
-            <tbody class="table">
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.Title</td>
-                        <td>@item.ISBN</td>
-                        <td>@item.Price</td>
-                        <td>@item.Author</td>
-                        <td>
-                            @item.Category.Name
-                        </td>
-
-                        <td>
-                            <div class="btn-group" role="group">
-                                <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-primary" style="width:150px">
-                                    <i class="bi bi-pen"></i> Edit
-                                </a>
-                            </div>
-                            <div class="btn-group" role="group">
-                                <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.ProductId" class="btn btn-danger col-12" style="width:150px">
-                                    <i class="bi bi-trash"></i> Delete
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                }
-            </tbody>
+           
         </table>
     </div>
     </div>
 </div>
 
 
-<div class="container">
+@section Scripts{
+    <script src="~/js/product.js"></script>
+}
