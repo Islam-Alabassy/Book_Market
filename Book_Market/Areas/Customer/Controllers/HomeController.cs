@@ -2,7 +2,6 @@ using Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using DataAccess.Repository.IRepository;
-using Models.Models;
 
 namespace Book_Market.Areas.Customer.Controllers
 {
@@ -21,15 +20,9 @@ namespace Book_Market.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = productRepo.GetAll(includeProperties:"Category");
-            return View(productList);
+            return View();
         }
 
-        public IActionResult Details(int id)
-        {
-            Product product = productRepo.Get(u => u.ProductId == id, includeProperties: "Category");
-            return View(product);
-        }
         public IActionResult Privacy()
         {
             return View();
