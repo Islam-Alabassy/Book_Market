@@ -1,10 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 using Models;
 using Models.Models;
 
 namespace DataAccess
 {
-    public class MainDbContext : DbContext
+    public class MainDbContext : 
+        IdentityDbContext
     {
         private readonly DbContextOptions<MainDbContext> options;
 
