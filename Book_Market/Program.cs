@@ -5,7 +5,9 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
-
+using Utilities;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Models.Models;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 // Add services to the container.
@@ -13,12 +15,19 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MainDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString(name: "DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<MainDbContext>();
+builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<MainDbContext>().AddDefaultTokenProviders();
 //builder.Services.Configure<IISServerOptions>(options=>
 //     options.MaxRequestBodySize = 10485760); // 10 MB)
 //Add Custom service to the services container
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

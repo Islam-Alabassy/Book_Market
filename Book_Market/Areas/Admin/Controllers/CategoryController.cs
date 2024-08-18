@@ -2,10 +2,13 @@
 using Models;
 using Microsoft.AspNetCore.Mvc;
 using DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
+using Utilities;
 
 namespace Book_Market.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepo;

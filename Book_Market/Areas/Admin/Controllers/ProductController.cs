@@ -6,10 +6,13 @@ using Models.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Tokens;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
+using Utilities;
 
 namespace Book_Market.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IProductRepository productRepo;

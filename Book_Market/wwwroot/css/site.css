@@ -1,3 +1,13 @@
+.divide-text:before,
+.divide-text:after{
+    color:white;
+    content:"";
+    flex:1;
+    border-bottom:1px solid #555;
+    margin: auto .25rem;
+    box-shadow: 0 -2px;
+}
+
 html {
   font-size: 14px;
 }
