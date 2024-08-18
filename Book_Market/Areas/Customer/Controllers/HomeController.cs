@@ -6,6 +6,7 @@ using Models.Models;
 
 namespace Book_Market.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 using Models;
@@ -7,7 +8,7 @@ using Models.Models;
 namespace DataAccess
 {
     public class MainDbContext : 
-        IdentityDbContext
+        IdentityDbContext<IdentityUser>
     {
         private readonly DbContextOptions<MainDbContext> options;
 

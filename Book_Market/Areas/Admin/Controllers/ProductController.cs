@@ -9,6 +9,7 @@ using System.Globalization;
 
 namespace Book_Market.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductController : Controller
     {
         private readonly IProductRepository productRepo;

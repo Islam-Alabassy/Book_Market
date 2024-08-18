@@ -4,13 +4,16 @@ using DataAccess.Repository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddRazorPages();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<MainDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString(name: "DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<MainDbContext>();
 //builder.Services.Configure<IISServerOptions>(options=>
 //     options.MaxRequestBodySize = 10485760); // 10 MB)
 //Add Custom service to the services container
@@ -30,9 +33,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");

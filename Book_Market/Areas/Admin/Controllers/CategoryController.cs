@@ -5,6 +5,7 @@ using DataAccess.Repository.IRepository;
 
 namespace Book_Market.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository categoryRepo;
