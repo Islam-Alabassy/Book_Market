@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using DataAccess.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -33,14 +34,15 @@ namespace Book_Market.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
-
+        private readonly ICompanyRepository _companyRepository;
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             RoleManager<IdentityRole> roleManager,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ICompanyRepository companyRepository)
         {
             _roleManager = roleManager;
             _userManager = userManager;
@@ -49,6 +51,7 @@ namespace Book_Market.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _companyRepository = companyRepository;
         }
 
         /// <summary>
@@ -114,7 +117,9 @@ namespace Book_Market.Areas.Identity.Pages.Account
             public string? State { get; set; }
             public string? PostalCode { get; set; }
             public string? PhoneNumber { get; set; }
-
+            public int? CompanyId { get; set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
         }
 
 
@@ -129,9 +134,17 @@ namespace Book_Market.Areas.Identity.Pages.Account
             }
             Input = new()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem { Text = i, Value=i })
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem{ 
+                   Text = i,
+                   Value = i
+                }),
+                CompanyList = _companyRepository.GetAll().Select(x => new SelectListItem
+                {
+                    Text = x.Name,
+                    Value = x.CompanyId.ToString()
+                })
             };
-
+           
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
@@ -153,6 +166,10 @@ namespace Book_Market.Areas.Identity.Pages.Account
                 user.Name = Input.Name;
                 user.State = Input.State;
                 user.StreetAddress = Input.StreetAddress;
+                if(Input.Role==SD.Role_Company)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
