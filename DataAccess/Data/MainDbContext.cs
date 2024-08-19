@@ -29,6 +29,12 @@ namespace DataAccess
                 new Category() { CategoryId=2,Name="Science Fiction",DisplayOrder=2},
                 new Category() { CategoryId=3,Name="History",DisplayOrder=3}
                 );
+            modelBuilder.Entity<Company>().
+                HasData(
+                new Company() { CompanyId=2,Name="Tech Solution",City="Tech City",PostalCode="12122",State="California",PhoneNumber="66655599000",StreetAddress="122 Tech st"},
+                new Company() { CompanyId=3,Name="Viva Books",City="Vid City",PostalCode="16322",State="Miami",PhoneNumber="66644499000",StreetAddress="23 Vid st" },
+                new Company() { CompanyId=4,Name="Readers Club",City="Lala land",PostalCode="19982",State= "Miami", PhoneNumber="778899004",StreetAddress="99 Main st" }
+                );
             modelBuilder.Entity<Product>()
                 .HasData(
                 new Product

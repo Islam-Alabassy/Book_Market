@@ -1,0 +1,64 @@
+﻿@model Company
+<div class="card shadow border-0 mt-lg-5">
+    <div class="card-header ml-0 py-1 bg-primary">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Create Company</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row" enctype="multipart/form-data">
+            <div class=" p-3 mt-4 form-control-lg ">
+
+                @* <div asp-validation-summary="ModelOnly" class="text-bg-danger"></div> *@
+                <div class="form-floating py-2 col-12 ">
+                    <input asp-for="Name" type="text" class="form-control border-0 shadow" />
+                    <label asp-for="Name" class="ms-2"></label>
+
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="form-floating py-2 col-12 ">
+                    <input asp-for="City" type="text" class="form-control border-0 shadow" />
+                    <label asp-for="City" class="ms-2"></label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12 ">
+                    <input asp-for="State" type="text" class="form-control border-0 shadow" />
+                    <label asp-for="State" class="ms-2"></label>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12 ">
+                    <input asp-for="PhoneNumber" type="text" class="form-control border-0 shadow" />
+                    <label asp-for="PhoneNumber" class="ms-2"></label>
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12 ">
+                    <input asp-for="StreetAddress" type="text" class="form-control border-0 shadow" />
+                    <label asp-for="StreetAddress" class="ms-2"></label>
+                    <span asp-validation-for="StreetAddress" class="text-danger"></span>
+                </div>
+                <div class="form-floating py-2 col-12 ">
+                    <input asp-for="PostalCode" type="number" class="form-control border-0 shadow" />
+                    <label asp-for="PostalCode" class="ms-2"></label>
+                    <span asp-validation-for="PostalCode" class="text-danger"></span>
+                </div>
+
+                <div class="row pt-4">
+                    <div class="col-6">
+                        <input type="submit" class="btn btn-primary form-control" />
+                    </div>
+                    <div class="col-6">
+                        <a asp-action="Index" asp-controller="Company" class="btn btn-secondary border form-control">
+                            Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial Title="_ValidationScriptsPartial" />
+}

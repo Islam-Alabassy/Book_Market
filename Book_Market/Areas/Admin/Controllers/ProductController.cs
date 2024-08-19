@@ -12,7 +12,7 @@ using Utilities;
 namespace Book_Market.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly IProductRepository productRepo;
@@ -154,7 +154,7 @@ namespace Book_Market.Areas.Admin.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteApi(int id)
+        public IActionResult DeleteApi(int? id)
         {
             if (id == null || id == 0)
             {
