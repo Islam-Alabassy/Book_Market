@@ -64,6 +64,8 @@ namespace Book_Market.Areas.Customer.Controllers
             {
                 //remove that cart
                 shoppingCartRepo.Remove(cart);
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    shoppingCartRepo.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).Count()-1);
             }
             else
             {
@@ -77,8 +79,10 @@ namespace Book_Market.Areas.Customer.Controllers
         public IActionResult Remove(int cartId)
         {
             var cart = shoppingCartRepo.Get(u => u.ShoppingCartId == cartId);
-   
+            
             shoppingCartRepo.Remove(cart);
+            HttpContext.Session.SetInt32(SD.SessionCart,
+                   shoppingCartRepo.GetAll(u => u.ApplicationUserId == cart.ApplicationUserId).Count() - 1);
             shoppingCartRepo.Save();
             TempData["success"] = "DATA DELETED SUCCESSFULLY";
             return RedirectToAction(nameof(Index));

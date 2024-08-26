@@ -26,5 +26,30 @@ namespace DataAccess.Repository
         {
             db.OrderHeaders.Update(orderHeader);
         }
+
+        public void UpdateStatus(int id, string orderStatus, string? paymentStatus = null)
+        {
+           var orderHeader = db.OrderHeaders.FirstOrDefault(u=>u.Id == id);
+            if (orderHeader != null)
+            {
+                orderHeader.OrderStatus = orderStatus;
+                if(paymentStatus != null)
+                {  orderHeader.PaymentStatus = paymentStatus; }
+            }
+        }
+
+        public void UpdateStripPaymentID(int id, string sessionId, string paymentIntentId)
+        {
+            var orderHeader = db.OrderHeaders.FirstOrDefault(u => u.Id == id);
+            if(!string.IsNullOrEmpty(sessionId))
+            {
+                orderHeader.SessionId = sessionId;
+            }
+            if (!string.IsNullOrEmpty(sessionId))
+            {
+                orderHeader.PaymentIntentId = paymentIntentId;
+                orderHeader.PaymentDate = DateTime.Now;
+            }
+        }
     }
 }

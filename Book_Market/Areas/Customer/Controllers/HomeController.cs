@@ -5,6 +5,7 @@ using DataAccess.Repository.IRepository;
 using Models.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Utilities;
 
 namespace Book_Market.Areas.Customer.Controllers
 {
@@ -54,15 +55,19 @@ namespace Book_Market.Areas.Customer.Controllers
             {
                 //Add cart record
                 shopCartRepo.Add(shoppingCart);
+                shopCartRepo.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    shopCartRepo.GetAll(u => u.ApplicationUserId == userId).Count());
             }
             else
             {
                 //ShoppingCart exists
                 cartFrmDb.Count += shoppingCart.Count;
                 shopCartRepo.Update(cartFrmDb);
+                shopCartRepo.Save();
             }
             
-            shopCartRepo.Save();
+            
             TempData["success"] = "Cart Updated Successfully";
             return RedirectToAction("Index");
         }
