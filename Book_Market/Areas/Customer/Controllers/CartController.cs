@@ -171,6 +171,7 @@ namespace Book_Market.Areas.Customer.Controllers
        
         public IActionResult OrderConfirmation(int id)
         {
+            HttpContext.Session.Clear();
             return View(id);
         }
         private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
