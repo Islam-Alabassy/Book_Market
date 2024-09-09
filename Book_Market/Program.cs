@@ -9,16 +9,19 @@ using Utilities;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Models.Models;
 using Stripe;
+using DataAccess.DbInitializer;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddDbContext<MainDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString(name: "DefaultConnection")));
 
 builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddEntityFrameworkStores<MainDbContext>().AddDefaultTokenProviders();
 
 //Add Custom service to the services container
+
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -64,9 +67,18 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+SeedData();
 app.MapRazorPages();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+void SeedData()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer= scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    }
+}
